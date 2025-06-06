@@ -1,0 +1,6 @@
+@FastTech.Pedidos_HostAddress = http://localhost:5007
+
+GET {{FastTech.Pedidos_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
