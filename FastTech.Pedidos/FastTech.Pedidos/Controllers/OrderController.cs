@@ -42,7 +42,7 @@ public class OrderController : ControllerBase
         catch (Exception ex)
         {
             _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
-            return StatusCode(5000, ex.Message);
+            return StatusCode(500, ex.Message);
         }
        
     }
