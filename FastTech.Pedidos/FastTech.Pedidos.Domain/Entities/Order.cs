@@ -14,6 +14,21 @@ public class Order : EntityBase
     public OrderStatus Status { get; set; }
     
     public DeliveryType DeliveryType { get; set; }
+    
 
     public List<OrderItems> OrderItems { get; set; } = new();
+
+    public Order()
+    {
+        
+    }
+
+    public Order(Guid idUser, Guid idStore, string? justification, DeliveryType deliveryType, List<OrderItems> orderItems)
+    {
+        IdUser = idUser;
+        IdStore = idStore;
+        Justification = justification;
+        DeliveryType = deliveryType;
+        OrderItems = orderItems;
+    }
 }

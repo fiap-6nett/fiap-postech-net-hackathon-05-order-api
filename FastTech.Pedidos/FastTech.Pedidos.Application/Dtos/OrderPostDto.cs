@@ -12,6 +12,9 @@ public class OrderPostDto
     [Required(ErrorMessage = "Id Store is required")]
     public Guid IdStore { get; set; }
     
+    [Required(ErrorMessage = "Menu Item Id is required")]
+    public Guid MenuItemId { get; set; }
+    
     [Required(ErrorMessage = "Delivery Type is required")]
     public DeliveryType DeliveryType { get; set; }
     
@@ -24,4 +27,6 @@ public class OrderItemsDto
     public Guid MenuItemId { get; set; }
     public int Quantity { get; set; }
     public decimal Price { get; set; }
+    
+    public string Notes { get; set; }
 }

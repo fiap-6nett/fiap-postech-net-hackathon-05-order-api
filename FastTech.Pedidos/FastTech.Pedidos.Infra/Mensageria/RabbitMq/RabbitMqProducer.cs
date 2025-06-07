@@ -14,7 +14,7 @@ public class RabbitMqProducer : IRabbitMqProducer
     {
         _settings = options.Value;
     }
-    public void SendMessageToQueue(object mensagem)
+    public Task SendMessageToQueue(object mensagem)
     {
         var factory = new ConnectionFactory
         {
@@ -45,5 +45,7 @@ public class RabbitMqProducer : IRabbitMqProducer
             basicProperties: null,
             body: body
         );
+        
+        return Task.CompletedTask;
     }
 }

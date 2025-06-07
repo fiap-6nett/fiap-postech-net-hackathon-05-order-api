@@ -1,3 +1,5 @@
+using FastTech.Pedidos.Application.Interfaces;
+using FastTech.Pedidos.Application.Services;
 using FastTech.Pedidos.Infra.Mensageria.RabbitMq;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,14 +13,15 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("RabbitMQ"));
 
+builder.Services.AddScoped<IOrderService, OderService>();
+builder.Services.AddScoped<IRabbitMqProducer, RabbitMqProducer>();
+
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+
+app.UseSwagger();
+app.UseSwaggerUI();
+
 
 app.UseHttpsRedirection();
 
