@@ -25,7 +25,6 @@ public class OrderController : ControllerBase
     {
         try
         {
-            
             _logger.LogInformation($"Acess Post - Order. Payload {payload}");
             
            var orderId = await _orderService.SendOrderQueueAsync(payload);
@@ -39,11 +38,10 @@ public class OrderController : ControllerBase
            _logger.LogInformation($"Order sent to the order queue. Id {orderId}");
            return Ok(returnDto);
         }
-        
         catch (Exception ex)
         {
             _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
-            return StatusCode(500, ex.Message);
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message); 
         }
        
     }
