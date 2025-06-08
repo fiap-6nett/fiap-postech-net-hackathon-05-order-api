@@ -42,6 +42,7 @@ public class OrderController : ControllerBase
            };
            
            _logger.LogInformation($"Order sent to the order queue. Id {orderId}");
+           
            return Ok(returnDto);
         }
         catch (Exception ex)

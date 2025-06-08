@@ -16,27 +16,38 @@ public class OderService : IOrderService
     
     public async Task<Guid> SendOrderQueueAsync(OrderPostDto pedido)
     {
-        var order = new Order
-        {
-            IdStore = pedido.IdStore,
-            IdUser = pedido.IdUser,
-            Status = OrderStatus.Pendente,
-            DeliveryType = pedido.DeliveryType,
-        };
-            
-        order.OrderItems.AddRange(
-            pedido.OrderItems.Select(item => new OrderItems
-            {
-                Id = Guid.NewGuid(),
-                OrderId = order.Id,
-                MenuItemId = item.MenuItemId,
-                Price = item.Price,
-                Quantity = item.Quantity
-            })
-        );
+        Order order;
         
-         await _rabbitMqProducer.SendMessageToQueue(order);
+        try
+        {
+            order = new Order
+            {
+                IdStore = pedido.IdStore,
+                IdUser = pedido.IdUser,
+                Status = OrderStatus.Pendente,
+                DeliveryType = pedido.DeliveryType
+            };
 
+            order.OrderItems.AddRange(
+                pedido.OrderItems.Select(item =>
+                    new OrderItem(
+                        Guid.NewGuid(),
+                        order.Id,
+                        item.MenuItemId,
+                        item.Quantity,
+                        item.Price,
+                        item.Notes
+                    )
+                )
+            );
+        }
+        catch (Exception ex)
+        {
+            throw new Exception($"Falha na construção da entidade Oder. {ex.Message}");
+        }
+        
+        await _rabbitMqProducer.SendMessageToQueue(order);
+        
         return order.Id;
     }
 }

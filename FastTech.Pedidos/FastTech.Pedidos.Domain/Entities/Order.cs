@@ -9,25 +9,21 @@ public class Order : EntityBase
     
     public Guid IdStore { get; set; }
 
-    public string? Justification { get; set; }
-    
     public OrderStatus Status { get; set; }
     
     public DeliveryType DeliveryType { get; set; }
     
-
-    public List<OrderItems> OrderItems { get; set; } = new();
+    public List<OrderItem> OrderItems { get; set; } = new();
 
     public Order()
     {
         
     }
 
-    public Order(Guid idUser, Guid idStore, string? justification, DeliveryType deliveryType, List<OrderItems> orderItems)
+    public Order(Guid idUser, Guid idStore, DeliveryType deliveryType, List<OrderItem> orderItems)
     {
         IdUser = idUser;
         IdStore = idStore;
-        Justification = justification;
         DeliveryType = deliveryType;
         OrderItems = orderItems;
     }
