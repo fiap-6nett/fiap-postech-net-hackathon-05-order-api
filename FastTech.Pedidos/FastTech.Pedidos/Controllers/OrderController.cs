@@ -21,10 +21,16 @@ public class OrderController : ControllerBase
     [HttpPost]
     [ProducesResponseType(typeof(ResponseDto), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Post([FromBody] OrderPostDto payload)
     {
         try
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
             _logger.LogInformation($"Acess Post - Order. Payload {payload}");
             
            var orderId = await _orderService.SendOrderQueueAsync(payload);
