@@ -25,7 +25,7 @@ public class OrderController : ControllerBase
     {
         try
         {
-            // teste
+            
             _logger.LogInformation($"Acess Post - Order. Payload {payload}");
             
            var orderId = await _orderService.SendOrderQueueAsync(payload);
