@@ -24,7 +24,7 @@ public class OderService : IOrderService
             {
                 IdStore = pedido.IdStore,
                 IdUser = pedido.IdUser,
-                Status = OrderStatus.Pendente,
+                Status = OrderStatus.Created,
                 DeliveryType = pedido.DeliveryType
             };
 
