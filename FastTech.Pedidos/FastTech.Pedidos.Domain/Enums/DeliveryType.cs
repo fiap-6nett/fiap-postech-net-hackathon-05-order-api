@@ -4,12 +4,15 @@ namespace FastTech.Pedidos.Domain.Enums;
 
 public enum DeliveryType
 {
-    [Display(Name = "Balção")]
-    Pendente = 0,
+    [Display(Name = "DineIn")]
+    DineIn = 0,
 
-    [Display(Name = "Delilvery")]
-    Processando = 1,
+    [Display(Name = "Delivery")]
+    Delivery = 1,
 
     [Display(Name = "Drive-thru")]
-    Enviado = 2,
+    DriveThru = 2,
+
+    [Display(Name = "PickupAtTable")]
+    PickupAtTable = 3
 }
