@@ -52,4 +52,124 @@ public class OrderController : ControllerBase
         }
        
     }
+    
+    [HttpPost("Cancelar")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Cancelar([FromBody] ChangeStatusDto payload)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            throw new NotImplementedException();
+            
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message); 
+        }
+       
+    }
+    
+    [HttpPost("Rejeitar")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Rejeitar([FromBody] ChangeStatusDto payload)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            throw new NotImplementedException();
+            
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message); 
+        }
+       
+    }
+    
+    [HttpPost("Aceitar")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Aceitar([FromBody] ChangeStatusDto payload)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            throw new NotImplementedException();
+            
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message); 
+        }
+       
+    }
+    
+    [HttpPost("Iniciar")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Iniciar([FromBody] ChangeStatusDto payload)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            throw new NotImplementedException();
+            
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message); 
+        }
+       
+    }
+    
+    [HttpPost("Finalizar")]
+    [ProducesResponseType(StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Finalizar([FromBody] ChangeStatusDto payload)
+    {
+        try
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            
+            throw new NotImplementedException();
+            
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+            return StatusCode(StatusCodes.Status500InternalServerError, ex.Message); 
+        }
+       
+    }
 }
