@@ -16,14 +16,16 @@ builder.Services.Configure<RabbitMQSettings>(builder.Configuration.GetSection("R
 builder.Services.AddScoped<IOrderService, OderService>();
 builder.Services.AddScoped<IRabbitMqProducer, RabbitMqProducer>();
 
+builder.WebHost.ConfigureKestrel(options =>
+{
+    options.ListenAnyIP(80);
+});
+
 var app = builder.Build();
 
 
 app.UseSwagger();
 app.UseSwaggerUI();
-
-
-app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
