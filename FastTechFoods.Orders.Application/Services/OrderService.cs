@@ -45,5 +45,21 @@ namespace FastTechFoods.Orders.Application.Services
                 throw new Exception($"Falha na construção da entidade Order. {ex.Message}");
             }            
         }
+
+        public async Task<Guid> SendOrderCancelQueueAsync(ChangeStatusDto pedido)
+        {
+            try
+            {                
+
+                await _rabbitMqProducer.SendMessageCancelToQueue(pedido);
+
+                return pedido.OrderId;
+            }
+
+            catch (Exception ex)
+            {
+                throw new Exception($"Falha na construção da entidade Order. {ex.Message}");
+            }
+        }
     }
 }

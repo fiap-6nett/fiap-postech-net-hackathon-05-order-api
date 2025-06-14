@@ -48,4 +48,39 @@ public class RabbitMqProducer : IRabbitMqProducer
         
         return Task.CompletedTask;
     }
+
+    public Task SendMessageCancelToQueue(object mensagem)
+    {
+        var factory = new ConnectionFactory
+        {
+            HostName = _settings.Host,
+            UserName = _settings.Username,
+            Password = _settings.Password,
+            VirtualHost = _settings.VirtualHost
+        };
+
+        using var connection = factory.CreateConnection();
+        using var channel = connection.CreateModel();
+
+
+        channel.QueueDeclare(
+            queue: _settings.QueueNameCancel,
+            durable: true,
+            exclusive: false,
+            autoDelete: false,
+            arguments: null
+        );
+
+        var json = JsonSerializer.Serialize(mensagem);
+        var body = Encoding.UTF8.GetBytes(json);
+
+        channel.BasicPublish(
+            exchange: "",
+            routingKey: _settings.QueueNameCancel,
+            basicProperties: null,
+            body: body
+        );
+
+        return Task.CompletedTask;
+    }
 }

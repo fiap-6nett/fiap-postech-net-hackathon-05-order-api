@@ -64,8 +64,19 @@ namespace FastTech.Orders.Controllers
                     return BadRequest(ModelState);
                 }
 
-                throw new NotImplementedException();
+                _logger.LogInformation($"Acess Post - Order. Payload {payload}");
 
+                var orderId = await _orderService.SendOrderCancelQueueAsync(payload);
+
+                var returnDto = new ResponseDto
+                {
+                    Id = orderId,
+                    CreatedAt = DateTime.Now,
+                };
+
+                _logger.LogInformation($"Order sent to the order queue. Id {orderId}");
+
+                return Ok(returnDto);
             }
             catch (Exception ex)
             {
