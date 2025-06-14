@@ -4,16 +4,13 @@ namespace FastTechFoods.Orders.Domain.Enums
 {
     public enum DeliveryType
     {
-        [Display(Name = "DineIn")]
-        DineIn = 0,
-
-        [Display(Name = "Delivery")]
-        Delivery = 1,
+        [Display(Name = "Counter")]
+        Counter = 0,
 
         [Display(Name = "Drive-thru")]
-        DriveThru = 2,
+        Delivery = 1,
 
-        [Display(Name = "PickupAtTable")]
-        PickupAtTable = 3
+        [Display(Name = "Delivery")]
+        DriveThru = 2
     }
 }

@@ -6,19 +6,19 @@ namespace FastTechFoods.Orders.Domain.Enums {
         [Display(Name = "Created")]
         Created = 0,
 
+        [Display(Name = "Cancelled")]
+        Cancelled = 1,
+
         [Display(Name = "Accepted")]
-        Accepted = 1,
+        Accepted = 2,
 
         [Display(Name = "Rejected")]
-        Rejected = 2,
+        Rejected = 3,
 
-        [Display(Name = "Cancelled")]
-        Cancelled = 3,
+        [Display(Name = "InProgress")]
+        InProgress = 4,
 
         [Display(Name = "Finished")]
-        Finished = 4,
-
-        [Display(Name = "Failed")]
-        Failed = 5
+        Finished = 5
     }
 }
