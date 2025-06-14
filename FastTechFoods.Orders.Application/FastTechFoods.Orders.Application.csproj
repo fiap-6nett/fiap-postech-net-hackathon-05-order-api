@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FastTech.Pedidos.Domain\FastTech.Pedidos.Domain.csproj" />
+      <ProjectReference Include="..\FastTechFoods.Orders.Domain\FastTechFoods.Orders.Domain.csproj" />
     </ItemGroup>
 
 </Project>

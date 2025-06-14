@@ -1,10 +1,10 @@
 using System.Text;
 using System.Text.Json;
-using FastTech.Pedidos.Application.Interfaces;
+using FastTechFoods.Orders.Application.Interfaces;
 using Microsoft.Extensions.Options;
 using RabbitMQ.Client;
 
-namespace FastTech.Pedidos.Infra.Mensageria.RabbitMq;
+namespace FastTechFoods.Orders.Infra.Mensageria.RabbitMq;
 
 public class RabbitMqProducer : IRabbitMqProducer
 {

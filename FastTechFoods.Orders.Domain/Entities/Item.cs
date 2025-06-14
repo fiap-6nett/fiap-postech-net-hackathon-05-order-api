@@ -1,8 +1,7 @@
-namespace FastTech.Pedidos.Domain.Entities;
-
-public class OrderItem
+namespace FastTechFoods.Orders.Domain.Entities
 {
-    
+    public class Item
+    {
         public Guid Id { get; private set; }
         public Guid OrderId { get; private set; }
         public Guid MenuItemId { get; private set; }
@@ -10,8 +9,8 @@ public class OrderItem
         public decimal Price { get; private set; }
         public string? Notes { get; private set; }
 
-        
-        public OrderItem(Guid id, Guid orderId, Guid menuItemId, int quantity, decimal price, string notes)
+
+        public Item(Guid id, Guid orderId, Guid menuItemId, int quantity, decimal price, string notes)
         {
             if (quantity <= 0)
                 throw new ArgumentException("Quantidade deve ser maior que zero", nameof(quantity));
@@ -27,4 +26,4 @@ public class OrderItem
             Notes = notes;
         }
     }
-    
+}

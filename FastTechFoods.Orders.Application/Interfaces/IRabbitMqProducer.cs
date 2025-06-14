@@ -1,4 +1,4 @@
-namespace FastTech.Pedidos.Application.Interfaces;
+namespace FastTechFoods.Orders.Application.Interfaces;
 
 public interface IRabbitMqProducer
 {

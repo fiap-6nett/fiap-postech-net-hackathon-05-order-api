@@ -1,4 +1,4 @@
-namespace FastTech.Pedidos.Infra.Mensageria.RabbitMq;
+namespace FastTechFoods.Orders.Infra.Mensageria.RabbitMq;
 
 public class RabbitMQSettings
 {

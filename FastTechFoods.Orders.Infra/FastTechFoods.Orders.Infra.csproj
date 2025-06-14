@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\FastTech.Pedidos.Application\FastTech.Pedidos.Application.csproj" />
+      <ProjectReference Include="..\FastTechFoods.Orders.Application\FastTechFoods.Orders.Application.csproj" />
     </ItemGroup>
 
 </Project>

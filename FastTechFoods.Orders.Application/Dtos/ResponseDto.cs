@@ -1,4 +1,4 @@
-namespace FastTech.Pedidos.Application.Dtos;
+namespace FastTechFoods.Orders.Application.Dtos;
 
 public class ResponseDto
 {
