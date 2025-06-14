@@ -5,5 +5,5 @@ namespace FastTechFoods.Orders.Application.Interfaces;
 
 public interface IOrderService
 {
-    Task<Guid> SendOrderQueueAsync(OrderPostDto pedido);
+    Task<Guid> SendOrderQueueAsync(OrderDto pedido);
 }

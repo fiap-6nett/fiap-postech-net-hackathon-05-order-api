@@ -31,5 +31,7 @@ namespace FastTechFoods.Orders.Domain.Entities
             Category = category;
             Notes = notes;
         }
+
+        public Item() { }
     }
 }

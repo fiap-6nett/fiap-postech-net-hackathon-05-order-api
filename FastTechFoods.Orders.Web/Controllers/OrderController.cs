@@ -20,7 +20,7 @@ namespace FastTech.Orders.Controllers
         [ProducesResponseType(typeof(ResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] OrderPostDto payload)
+        public async Task<IActionResult> Post([FromBody] OrderDto payload)
         {
             try
             {

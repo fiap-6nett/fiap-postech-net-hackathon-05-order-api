@@ -14,41 +14,36 @@ namespace FastTechFoods.Orders.Application.Services
             _rabbitMqProducer = rabbitMqProducer;
         }
 
-        public async Task<Guid> SendOrderQueueAsync(OrderPostDto pedido)
+        public async Task<Guid> SendOrderQueueAsync(OrderDto orderDto)
         {
-            Order order;
-
             try
             {
-                order = new Order
+                Order order = new Order
                 {
-                    IdStore = pedido.IdStore,
-                    IdUser = pedido.IdUser,
-                    Status = OrderStatus.Created,
-                    DeliveryType = pedido.DeliveryType
+                    IdStore = orderDto.IdStore,
+                    IdUser = orderDto.IdUser,
+                    DeliveryType = orderDto.DeliveryType,
+                    Items = orderDto.Items.Select(i => new Item(
+                        id: i.Id,
+                        menuItemId: i.MenuItemId,
+                        name: i.Name,
+                        description: i.Description,
+                        price: i.Price,
+                        amount: i.Amount,
+                        category: i.Category,
+                        notes: i.Notes)
+                    )
                 };
 
-                order.OrderItems.AddRange(
-                    pedido.OrderItems.Select(item =>
-                        new OrderItem(
-                            Guid.NewGuid(),
-                            order.Id,
-                            item.MenuItemId,
-                            item.Quantity,
-                            item.Price,
-                            item.Notes
-                        )
-                    )
-                );
+                await _rabbitMqProducer.SendMessageToQueue(order);
+
+                return order.Id;
             }
+
             catch (Exception ex)
             {
-                throw new Exception($"Falha na construção da entidade Oder. {ex.Message}");
-            }
-
-            await _rabbitMqProducer.SendMessageToQueue(order);
-
-            return order.Id;
+                throw new Exception($"Falha na construção da entidade Order. {ex.Message}");
+            }            
         }
     }
 }
