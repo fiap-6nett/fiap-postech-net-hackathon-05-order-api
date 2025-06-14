@@ -1,1 +1,1 @@
-# fiap-postech-net-hackathon-05-loja-pedidos
+# fiap-postech-net-hackathon-05-order-api
