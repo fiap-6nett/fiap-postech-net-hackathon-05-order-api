@@ -1,5 +1,6 @@
 using FastTechFoods.Orders.Application.Dtos;
 using FastTechFoods.Orders.Application.Interfaces;
+using FastTechFoods.Orders.Domain.Enums;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastTech.Orders.Controllers
@@ -63,18 +64,26 @@ namespace FastTech.Orders.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                
+                _logger.LogInformation($"Acess cancel - Order. Payload {payload}");
 
-                _logger.LogInformation($"Acess Post - Order. Payload {payload}");
+                var chageStatus = new ChangeStatusSendQueueDto()
+                {
+                    OrderId = payload.OrderId,
+                    OrderStatus = OrderStatus.Cancelled,
+                    Justification = payload.Justification
 
-                var orderId = await _orderService.SendOrderCancelQueueAsync(payload);
+                };
+
+                _orderService.SendOrderChangeStatusAsync(chageStatus);
 
                 var returnDto = new ResponseDto
                 {
-                    Id = orderId,
+                    Id = payload.OrderId,
                     CreatedAt = DateTime.Now,
                 };
 
-                _logger.LogInformation($"Order sent to the order queue. Id {orderId}");
+                _logger.LogInformation($"Order sent to the  cancel order queue. Id {payload.OrderId}");
 
                 return Ok(returnDto);
             }
@@ -98,13 +107,32 @@ namespace FastTech.Orders.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                
+                _logger.LogInformation($"Acess reject - Order. Payload {payload}");
 
-                throw new NotImplementedException();
+                var chageStatus = new ChangeStatusSendQueueDto()
+                {
+                    OrderId = payload.OrderId,
+                    OrderStatus = OrderStatus.Rejected,
+                    Justification = payload.Justification
 
+                };
+
+                _orderService.SendOrderChangeStatusAsync(chageStatus);
+
+                var returnDto = new ResponseDto
+                {
+                    Id = payload.OrderId,
+                    CreatedAt = DateTime.Now,
+                };
+
+                _logger.LogInformation($"Order sent to the  reject order queue. Id {payload.OrderId}");
+
+                return Ok(returnDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+                _logger.LogError($"Failed to send data to the order reject queue. Error {ex.Message} - {ex.StackTrace} ");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
@@ -122,13 +150,32 @@ namespace FastTech.Orders.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                
+                _logger.LogInformation($"Acess accept - Order. Payload {payload}");
 
-                throw new NotImplementedException();
+                var chageStatus = new ChangeStatusSendQueueDto()
+                {
+                    OrderId = payload.OrderId,
+                    OrderStatus = OrderStatus.Accepted,
+                    Justification = payload.Justification
 
+                };
+
+                _orderService.SendOrderChangeStatusAsync(chageStatus);
+
+                var returnDto = new ResponseDto
+                {
+                    Id = payload.OrderId,
+                    CreatedAt = DateTime.Now,
+                };
+
+                _logger.LogInformation($"Order sent to the  accept order queue. Id {payload.OrderId}");
+
+                return Ok(returnDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+                _logger.LogError($"Failed to send data to the order accept queue. Error {ex.Message} - {ex.StackTrace} ");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 
@@ -146,16 +193,33 @@ namespace FastTech.Orders.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                
+                _logger.LogInformation($"Acess progress - Order. Payload {payload}");
 
-                throw new NotImplementedException();
+                var chageStatus = new ChangeStatusSendQueueDto()
+                {
+                    OrderId = payload.OrderId,
+                    OrderStatus = OrderStatus.InProgress,
+                    Justification = payload.Justification
+                };
 
+                _orderService.SendOrderChangeStatusAsync(chageStatus);
+
+                var returnDto = new ResponseDto
+                {
+                    Id = payload.OrderId,
+                    CreatedAt = DateTime.Now,
+                };
+
+                _logger.LogInformation($"Order sent to the progress order queue. Id {payload.OrderId}");
+
+                return Ok(returnDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+                _logger.LogError($"Failed to send data to the order progress queue. Error {ex.Message} - {ex.StackTrace} ");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
-
         }
 
         [HttpPost("Finalizar")]
@@ -170,13 +234,32 @@ namespace FastTech.Orders.Controllers
                 {
                     return BadRequest(ModelState);
                 }
+                
+                _logger.LogInformation($"Acess finished - Order. Payload {payload}");
 
-                throw new NotImplementedException();
+                var chageStatus = new ChangeStatusSendQueueDto()
+                {
+                    OrderId = payload.OrderId,
+                    OrderStatus = OrderStatus.Finished,
+                    Justification = payload.Justification
 
+                };
+
+                _orderService.SendOrderChangeStatusAsync(chageStatus);
+
+                var returnDto = new ResponseDto
+                {
+                    Id = payload.OrderId,
+                    CreatedAt = DateTime.Now,
+                };
+
+                _logger.LogInformation($"Order sent to finished order queue. Id {payload.OrderId}");
+
+                return Ok(returnDto);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Failed to send data to the order queue. Error {ex.Message} - {ex.StackTrace} ");
+                _logger.LogError($"Failed to send data to finished progress queue. Error {ex.Message} - {ex.StackTrace} ");
                 return StatusCode(StatusCodes.Status500InternalServerError, ex.Message);
             }
 

@@ -9,5 +9,6 @@ public class RabbitMQSettings
     public string Password { get; set; } = string.Empty;
     public string VirtualHost { get; set; } = "/";
     public string QueueName { get; set; } = string.Empty;
-    public string QueueNameCancel { get; set; } = string.Empty;
+    
+    public string QueueNameChangeStatus { get; set; } = string.Empty;
 }

@@ -39,26 +39,23 @@ namespace FastTechFoods.Orders.Application.Services
 
                 return order.Id;
             }
-
             catch (Exception ex)
             {
-                throw new Exception($"Falha na construção da entidade Order. {ex.Message}");
+                throw new Exception($"Failed to send order registration to queue. {ex.Message}");
             }            
         }
 
-        public async Task<Guid> SendOrderCancelQueueAsync(ChangeStatusDto pedido)
+        public Task SendOrderChangeStatusAsync(ChangeStatusSendQueueDto pedido)
         {
             try
-            {                
+            {
+                _rabbitMqProducer.SendMessageChangeStatusQueue(pedido);
 
-                await _rabbitMqProducer.SendMessageCancelToQueue(pedido);
-
-                return pedido.OrderId;
+                return Task.CompletedTask;
             }
-
             catch (Exception ex)
             {
-                throw new Exception($"Falha na construção da entidade Order. {ex.Message}");
+                throw new Exception($"Failed to send order status update to queue. {ex.Message}");
             }
         }
     }

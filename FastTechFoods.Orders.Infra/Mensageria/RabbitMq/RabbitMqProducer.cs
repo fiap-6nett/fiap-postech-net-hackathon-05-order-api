@@ -49,7 +49,7 @@ public class RabbitMqProducer : IRabbitMqProducer
         return Task.CompletedTask;
     }
 
-    public Task SendMessageCancelToQueue(object mensagem)
+    public Task SendMessageChangeStatusQueue(object mensagem)
     {
         var factory = new ConnectionFactory
         {
@@ -64,7 +64,7 @@ public class RabbitMqProducer : IRabbitMqProducer
 
 
         channel.QueueDeclare(
-            queue: _settings.QueueNameCancel,
+            queue: _settings.QueueNameChangeStatus,
             durable: true,
             exclusive: false,
             autoDelete: false,
@@ -76,7 +76,7 @@ public class RabbitMqProducer : IRabbitMqProducer
 
         channel.BasicPublish(
             exchange: "",
-            routingKey: _settings.QueueNameCancel,
+            routingKey: _settings.QueueNameChangeStatus,
             basicProperties: null,
             body: body
         );
