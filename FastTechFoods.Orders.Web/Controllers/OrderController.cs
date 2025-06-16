@@ -75,7 +75,7 @@ namespace FastTech.Orders.Controllers
 
                 };
 
-                _orderService.SendOrderChangeStatusAsync(chageStatus);
+                await _orderService.SendOrderChangeStatusAsync(chageStatus);
 
                 var returnDto = new ResponseDto
                 {
@@ -118,7 +118,7 @@ namespace FastTech.Orders.Controllers
 
                 };
 
-                _orderService.SendOrderChangeStatusAsync(chageStatus);
+                await _orderService.SendOrderChangeStatusAsync(chageStatus);
 
                 var returnDto = new ResponseDto
                 {
@@ -161,7 +161,7 @@ namespace FastTech.Orders.Controllers
 
                 };
 
-                _orderService.SendOrderChangeStatusAsync(chageStatus);
+                await _orderService.SendOrderChangeStatusAsync(chageStatus);
 
                 var returnDto = new ResponseDto
                 {
@@ -203,7 +203,7 @@ namespace FastTech.Orders.Controllers
                     Justification = payload.Justification
                 };
 
-                _orderService.SendOrderChangeStatusAsync(chageStatus);
+                await _orderService.SendOrderChangeStatusAsync(chageStatus);
 
                 var returnDto = new ResponseDto
                 {
@@ -245,7 +245,7 @@ namespace FastTech.Orders.Controllers
 
                 };
 
-                _orderService.SendOrderChangeStatusAsync(chageStatus);
+                await _orderService.SendOrderChangeStatusAsync(chageStatus);
 
                 var returnDto = new ResponseDto
                 {
