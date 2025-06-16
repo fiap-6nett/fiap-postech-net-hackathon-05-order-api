@@ -1,22 +1,25 @@
+using AutoMapper;
 using FastTechFoods.Orders.Application.Dtos;
 using FastTechFoods.Orders.Application.Interfaces;
 using FastTechFoods.Orders.Domain.Enums;
+using FastTechFoods.Orders.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastTech.Orders.Controllers
 {
     [Route("api/v1.0/Pedidos")]
-    public class OrderController : ControllerBase
+    public class OrderController(
+                ILogger<OrderController> logger, 
+                IOrderService orderService,
+                IOrderRepository orderRepository,
+                IMapper mapper): ControllerBase
     {
-        private readonly ILogger<OrderController> _logger;
-        private readonly IOrderService _orderService;
 
-        public OrderController(ILogger<OrderController> logger, IOrderService orderService)
-        {
-            _logger = logger;
-            _orderService = orderService;
-        }
-
+        private readonly ILogger<OrderController> _logger = logger;
+        private readonly IOrderService _orderService = orderService;
+        private readonly IOrderRepository _orderRepository = orderRepository;
+        private readonly IMapper _mapper = mapper;
+        
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(ResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -264,5 +267,24 @@ namespace FastTech.Orders.Controllers
             }
 
         }
+                
+        [HttpGet("[action]")]
+        [ProducesResponseType(typeof(List<OrderDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ObterTodos()
+        {
+            try
+            {
+                _logger.LogInformation($"Acessou {nameof(ObterTodos)}.");
+                var response = _mapper.Map<IEnumerable<OrderDto>>(await _orderRepository.GetAll());
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed API Orders. Erro: {ex}");
+                return StatusCode(500, $"Internal server error - {ex}");
+            }
+        }
+
     }
 }
