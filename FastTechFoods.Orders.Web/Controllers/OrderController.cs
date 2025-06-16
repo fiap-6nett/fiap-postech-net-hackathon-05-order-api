@@ -5,7 +5,7 @@ using FastTechFoods.Orders.Domain.Enums;
 using FastTechFoods.Orders.Domain.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
-namespace FastTech.Orders.Controllers
+namespace FastTechFoods.Orders.Controllers
 {
     [Route("api/v1.0/Pedidos")]
     public class OrderController(
