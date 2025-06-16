@@ -17,11 +17,11 @@ namespace FastTech.Orders.Controllers
             _orderService = orderService;
         }
 
-        [HttpPost]
+        [HttpPost("[action]")]
         [ProducesResponseType(typeof(ResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public async Task<IActionResult> Post([FromBody] OrderDto payload)
+        public async Task<IActionResult> Criar([FromBody] OrderDto payload)
         {
             try
             {
@@ -52,7 +52,7 @@ namespace FastTech.Orders.Controllers
 
         }
 
-        [HttpPost("Cancelar")]
+        [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -95,7 +95,7 @@ namespace FastTech.Orders.Controllers
 
         }
 
-        [HttpPost("Rejeitar")]
+        [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -138,7 +138,7 @@ namespace FastTech.Orders.Controllers
 
         }
 
-        [HttpPost("Aceitar")]
+        [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -181,7 +181,7 @@ namespace FastTech.Orders.Controllers
 
         }
 
-        [HttpPost("Iniciar")]
+        [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -222,7 +222,7 @@ namespace FastTech.Orders.Controllers
             }
         }
 
-        [HttpPost("Finalizar")]
+        [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
