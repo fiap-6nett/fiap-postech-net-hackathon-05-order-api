@@ -287,5 +287,40 @@ namespace FastTechFoods.Orders.Controllers
             }
         }
 
+        [HttpGet("[action]")]
+        [ProducesResponseType(typeof(List<ResponseOrderDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        public async Task<IActionResult> ObterTodosComParametros(
+            [FromQuery] Guid? idStore,
+            [FromQuery] Guid? idUser,
+            [FromQuery] DateTime? startDate,
+            [FromQuery] DateTime? endDate)
+        {
+            try
+            {
+                _logger.LogInformation($"Acessou {nameof(ObterTodosComParametros)}.");
+
+                if (startDate.HasValue && endDate.HasValue && startDate > endDate)
+                    return BadRequest("A data de início não pode ser maior que a data de fim.");
+
+                var orders = await _orderRepository.GetAll();
+
+                var filtered = orders
+                    .Where(o => !idStore.HasValue || o.IdStore == idStore.Value)
+                    .Where(o => !idUser.HasValue || o.IdUser == idUser.Value)
+                    .Where(o => !startDate.HasValue || o.CreatedAt >= startDate.Value)
+                    .Where(o => !endDate.HasValue || o.CreatedAt <= endDate.Value);
+
+                var response = _mapper.Map<IEnumerable<ResponseOrderDto>>(filtered);
+                                
+                return Ok(response);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"Failed API Orders. Erro: {ex}");
+                return StatusCode(500, $"Internal server error - {ex}");
+            }
+        }
+
     }
 }
