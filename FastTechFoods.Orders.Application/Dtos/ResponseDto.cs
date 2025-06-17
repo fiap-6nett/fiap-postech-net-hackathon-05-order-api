@@ -1,7 +1,8 @@
-namespace FastTechFoods.Orders.Application.Dtos;
-
-public class ResponseDto
+namespace FastTechFoods.Orders.Application.Dtos
 {
-    public Guid Id { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public class ResponseDto
+    {
+        public Guid Id { get; set; }
+        public DateTime CreatedAt { get; set; }
+    }
 }

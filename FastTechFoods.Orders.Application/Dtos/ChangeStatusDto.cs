@@ -1,5 +1,3 @@
-using FastTechFoods.Orders.Domain.Enums;
-
 namespace FastTechFoods.Orders.Application.Dtos
 {
     public class ChangeStatusDto

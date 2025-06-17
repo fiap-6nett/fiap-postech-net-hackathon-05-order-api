@@ -1,12 +1,13 @@
 using FastTechFoods.Orders.Domain.Enums;
 
-namespace FastTechFoods.Orders.Application.Dtos;
-
-public class ChangeStatusSendQueueDto
+namespace FastTechFoods.Orders.Application.Dtos
 {
-    public Guid OrderId { get; set; }
-    
-    public OrderStatus OrderStatus { get; set; }
-        
-    public string Justification { get; set; }
+    public class ChangeStatusSendQueueDto
+    {
+        public Guid OrderId { get; set; }
+
+        public OrderStatus OrderStatus { get; set; }
+
+        public string Justification { get; set; }
+    }
 }

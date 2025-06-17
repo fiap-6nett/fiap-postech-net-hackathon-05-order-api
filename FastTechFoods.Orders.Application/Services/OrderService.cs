@@ -1,7 +1,6 @@
 using FastTechFoods.Orders.Application.Dtos;
 using FastTechFoods.Orders.Application.Interfaces;
 using FastTechFoods.Orders.Domain.Entities;
-using FastTechFoods.Orders.Domain.Enums;
 
 namespace FastTechFoods.Orders.Application.Services
 {

@@ -9,6 +9,9 @@ namespace FastTechFoods.Orders.Web.Configuration.Mappings
         public ItemProfile()
         {
             CreateMap<Item, ItemDto>();
+            CreateMap<Item, ResponseItemDto>()
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category.ToString()));
+
         }
     }
 }

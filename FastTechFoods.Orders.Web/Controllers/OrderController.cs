@@ -269,14 +269,15 @@ namespace FastTechFoods.Orders.Controllers
         }
                 
         [HttpGet("[action]")]
-        [ProducesResponseType(typeof(List<OrderDto>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(List<ResponseOrderDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObterTodos()
         {
             try
             {
                 _logger.LogInformation($"Acessou {nameof(ObterTodos)}.");
-                var response = _mapper.Map<IEnumerable<OrderDto>>(await _orderRepository.GetAll());
+                var response = _mapper.Map<IEnumerable<ResponseOrderDto>>(await _orderRepository.GetAll());
+                                
                 return Ok(response);
             }
             catch (Exception ex)
