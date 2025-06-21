@@ -8,6 +8,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
+using Prometheus;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -54,12 +55,12 @@ app.UseSwaggerUI();
 app.UseHttpsRedirection();
 
 // Middleware Prometheus para requisições HTTP
-//app.UseHttpMetrics();
+app.UseHttpMetrics();
 
 app.UseAuthorization();
 
 app.MapControllers();
 
-//app.MapMetrics(); // Exposição do /metrics
+app.MapMetrics(); // Exposição do /metrics
 
 app.Run();
