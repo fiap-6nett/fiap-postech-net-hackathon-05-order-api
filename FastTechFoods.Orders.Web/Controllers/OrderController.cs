@@ -3,6 +3,7 @@ using FastTechFoods.Orders.Application.Dtos;
 using FastTechFoods.Orders.Application.Interfaces;
 using FastTechFoods.Orders.Domain.Enums;
 using FastTechFoods.Orders.Domain.Interfaces;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace FastTechFoods.Orders.Controllers
@@ -59,6 +60,7 @@ namespace FastTechFoods.Orders.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        [Authorize]
         public async Task<IActionResult> Cancelar([FromBody] ChangeStatusDto payload)
         {
             try
