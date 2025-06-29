@@ -5,28 +5,48 @@ using FastTechFoods.Orders.Domain.Enums;
 using FastTechFoods.Orders.Domain.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Prometheus;
 
 namespace FastTechFoods.Orders.Controllers
 {
     [Route("api/v1.0/Pedidos")]
-    public class OrderController(
-                ILogger<OrderController> logger, 
-                IOrderService orderService,
-                IOrderRepository orderRepository,
-                IMapper mapper): ControllerBase
+    public class OrderController : ControllerBase
     {
 
-        private readonly ILogger<OrderController> _logger = logger;
-        private readonly IOrderService _orderService = orderService;
-        private readonly IOrderRepository _orderRepository = orderRepository;
-        private readonly IMapper _mapper = mapper;
-        
+        private readonly ILogger<OrderController> _logger;
+        private readonly IOrderService _orderService;
+        private readonly IOrderRepository _orderRepository;
+        private readonly IMapper _mapper;
+
+        private static readonly Counter CriarCounter = Metrics.CreateCounter("order_criar_requests_total", "Total de requisições para Criar");
+        private static readonly Counter CancelarCounter = Metrics.CreateCounter("order_cancelar_requests_total", "Total de requisições para Cancelar");
+        private static readonly Counter RejeitarCounter = Metrics.CreateCounter("order_rejeitar_requests_total", "Total de requisições para Rejeitar");
+        private static readonly Counter AceitarCounter = Metrics.CreateCounter("order_aceitar_requests_total", "Total de requisições para Aceitar");
+        private static readonly Counter IniciarCounter = Metrics.CreateCounter("order_iniciar_requests_total", "Total de requisições para Iniciar");
+        private static readonly Counter FinalizarCounter = Metrics.CreateCounter("order_finalizar_requests_total", "Total de requisições para Finalizar");
+        private static readonly Counter ObterTodosCounter = Metrics.CreateCounter("order_obter_todos_requests_total", "Total de requisições para ObterTodos");
+        private static readonly Counter ObterTodosComParametrosCounter = Metrics.CreateCounter("order_obter_todos_com_parametros_requests_total", "Total de requisições para ObterTodosComParametros");
+
+        public OrderController(
+                    ILogger<OrderController> logger, 
+                    IOrderService orderService,
+                    IOrderRepository orderRepository,
+                    IMapper mapper)
+        {
+            _logger = logger;
+            _orderService = orderService;
+            _orderRepository = orderRepository;
+            _mapper = mapper;
+        }
+
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(ResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Criar([FromBody] OrderDto payload)
         {
+            CriarCounter.Inc();
+
             try
             {
                 if (!ModelState.IsValid)
@@ -63,6 +83,8 @@ namespace FastTechFoods.Orders.Controllers
         [Authorize]
         public async Task<IActionResult> Cancelar([FromBody] ChangeStatusDto payload)
         {
+            CancelarCounter.Inc();
+
             try
             {
                 if (!ModelState.IsValid)
@@ -106,6 +128,8 @@ namespace FastTechFoods.Orders.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Rejeitar([FromBody] ChangeStatusDto payload)
         {
+            RejeitarCounter.Inc();
+
             try
             {
                 if (!ModelState.IsValid)
@@ -149,6 +173,8 @@ namespace FastTechFoods.Orders.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Aceitar([FromBody] ChangeStatusDto payload)
         {
+            AceitarCounter.Inc();
+
             try
             {
                 if (!ModelState.IsValid)
@@ -192,6 +218,8 @@ namespace FastTechFoods.Orders.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Iniciar([FromBody] ChangeStatusDto payload)
         {
+            IniciarCounter.Inc();
+
             try
             {
                 if (!ModelState.IsValid)
@@ -233,6 +261,8 @@ namespace FastTechFoods.Orders.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> Finalizar([FromBody] ChangeStatusDto payload)
         {
+            FinalizarCounter.Inc();
+
             try
             {
                 if (!ModelState.IsValid)
@@ -275,6 +305,8 @@ namespace FastTechFoods.Orders.Controllers
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> ObterTodos()
         {
+            ObterTodosCounter.Inc();
+
             try
             {
                 _logger.LogInformation($"Acessou {nameof(ObterTodos)}.");
@@ -298,6 +330,8 @@ namespace FastTechFoods.Orders.Controllers
             [FromQuery] DateTime? startDate,
             [FromQuery] DateTime? endDate)
         {
+            ObterTodosComParametrosCounter.Inc();
+
             try
             {
                 _logger.LogInformation($"Acessou {nameof(ObterTodosComParametros)}.");
