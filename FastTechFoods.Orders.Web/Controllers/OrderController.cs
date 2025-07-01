@@ -38,7 +38,8 @@ namespace FastTechFoods.Orders.Controllers
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
-
+                
+        [Authorize]
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(ResponseDto), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -76,11 +77,11 @@ namespace FastTechFoods.Orders.Controllers
 
         }
 
+        [Authorize]
         [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        [Authorize]
         public async Task<IActionResult> Cancelar([FromBody] ChangeStatusDto payload)
         {
             CancelarCounter.Inc();
@@ -122,6 +123,7 @@ namespace FastTechFoods.Orders.Controllers
 
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -167,6 +169,7 @@ namespace FastTechFoods.Orders.Controllers
 
         }
 
+        [Authorize(Roles = "Admin, Employee")]
         [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -212,6 +215,7 @@ namespace FastTechFoods.Orders.Controllers
 
         }
 
+        [Authorize(Roles = "Admin, KitchenStaff")]
         [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -255,6 +259,7 @@ namespace FastTechFoods.Orders.Controllers
             }
         }
 
+        [Authorize(Roles = "Admin, KitchenStaff")]        
         [HttpPost("[action]")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -299,7 +304,8 @@ namespace FastTechFoods.Orders.Controllers
             }
 
         }
-                
+
+        [Authorize(Roles = "Admin, Manager")]
         [HttpGet("[action]")]
         [ProducesResponseType(typeof(List<ResponseOrderDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -321,6 +327,7 @@ namespace FastTechFoods.Orders.Controllers
             }
         }
 
+        [Authorize]
         [HttpGet("[action]")]
         [ProducesResponseType(typeof(List<ResponseOrderDto>), StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
