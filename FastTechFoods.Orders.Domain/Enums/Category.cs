@@ -7,10 +7,10 @@ namespace FastTechFoods.Orders.Domain.Enums
         [Display(Name = "Snack")]
         Snack = 0,
 
-        [Display(Name = "Drink")]
+        [Display(Name = "Dessert")]
         Drink = 1,
 
-        [Display(Name = "Dessert")]
+        [Display(Name = "Drink")]
         Dessert = 2        
     }
 }
