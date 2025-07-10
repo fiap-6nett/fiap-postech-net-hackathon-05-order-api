@@ -10,6 +10,7 @@ namespace FastTechFoods.Orders.Domain.Entities
         public DeliveryType DeliveryType { get; set; }
         public IEnumerable<Item> Items { get; set; }
         public string Justification { get; set; }
+        public decimal Total { get; set; }
 
         public Order(Guid idStore, Guid idUser, DeliveryType deliveryType, IEnumerable<Item> items)
         {

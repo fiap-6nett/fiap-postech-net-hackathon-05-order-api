@@ -10,5 +10,7 @@ namespace FastTechFoods.Orders.Application.Dtos
         public string Status { get; set; }
         public string DeliveryType { get; set; }        
         public required IEnumerable<ResponseItemDto> Items { get; set; }
+        public string Justification { get; set; }
+        public decimal Total { get; set; }
     }
 }
