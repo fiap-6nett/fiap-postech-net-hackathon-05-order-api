@@ -110,6 +110,7 @@ app.UseSwagger();
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
+app.UseCors("AllowAll");
 
 // Middleware Prometheus para requisições HTTP
 app.UseHttpMetrics();
