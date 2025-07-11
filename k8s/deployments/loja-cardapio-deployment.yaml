@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: loja-cardapio
+  namespace: fase5
+  labels:
+    app: loja-cardapio
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: loja-cardapio
+  template:
+    metadata:
+      labels:
+        app: loja-cardapio
+    spec:
+      containers:
+        - name: loja-cardapio
+          image: wesley2019/loja-cardapio:1.0
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8080
+          env:
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ASPNETCORE_URLS
+              value: "http://+:8080"
