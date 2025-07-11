@@ -22,7 +22,7 @@ jobs:
           dotnet-version: '8.0.x'
 
       - name: 🔁 Restore dependências
-        run: dotnet restore Contato.Cadastrar.Web.sln
+        run: dotnet restore FastTechFoods.Orders.sln
 
       - name: 🛠️ Build da aplicação
         run: dotnet build FastTechFoods.Orders.sln --configuration Release --no-restore
