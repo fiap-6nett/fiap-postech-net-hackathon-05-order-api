@@ -40,7 +40,7 @@ namespace FastTechFoods.Orders.Controllers
         }
 
         /// <summary>
-        /// Api responsavel por enviar pedidos a fila de criacao de pedidos.
+        /// Api responsavel por enviar pedidos a fila de criacao de pedidos - apresentacao fiap.
         /// </summary>
         /// <remarks>
         /// Use a autenticação via token JWT para acessar os endpoints protegidos.
