@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: order-api
-          image: wesley2019/order-api:1.0
+          image: wesley2019/order-api:latest
           imagePullPolicy: Always
           ports:
             - containerPort: 8080
