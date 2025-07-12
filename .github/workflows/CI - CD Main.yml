@@ -48,6 +48,9 @@ jobs:
         run: |
           az aks get-credentials --resource-group ${{ secrets.AZURE_RG }} --name ${{ secrets.AZURE_AKS_CLUSTER }} --overwrite-existing
 
+      - name: 🔍 Verificar deployments no namespace fase5
+        run: kubectl get deployments -n fase5
+  
       - name: 🚀 Aplicar manifestos no cluster Kubernetes
         run: kubectl apply -f ./k8s/
 
