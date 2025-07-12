@@ -6,7 +6,7 @@ metadata:
 spec:
   selector:
     app: order-api
-  type: ClusterIP
+  type: LoadBalancer
   ports:
     - protocol: TCP
       port: 80
