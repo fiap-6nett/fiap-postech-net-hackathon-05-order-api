@@ -48,11 +48,11 @@ jobs:
         run: |
           az aks get-credentials --resource-group ${{ secrets.AZURE_RG }} --name ${{ secrets.AZURE_AKS_CLUSTER }} --overwrite-existing
 
+      - name: 🚀 Aplicar manifestos no cluster Kubernetes (recursivo)
+        run: kubectl apply -R -f ./k8s/
+
       - name: 🔍 Verificar deployments no namespace fase5
         run: kubectl get deployments -n fase5
-  
-      - name: 🚀 Aplicar manifestos no cluster Kubernetes
-        run: kubectl apply -f ./k8s/
 
       - name: 🔄 Reiniciar o deployment (forçar update da imagem)
         run: kubectl rollout restart deployments/order-api -n fase5
