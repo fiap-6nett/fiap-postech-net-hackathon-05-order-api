@@ -10,7 +10,6 @@ jobs:
     runs-on: ubuntu-latest
     env:
       DOCKER_IMAGE: wesley2019/order-api
-      DOCKER_TAG: '1.0'
 
     steps:
       - name: 🔄 Checkout do código
@@ -27,6 +26,10 @@ jobs:
       - name: 🛠️ Build da aplicação
         run: dotnet build FastTechFoods.Orders.sln --configuration Release --no-restore
 
+      - name: 🔨 Gerar tag única da imagem
+        id: vars
+        run: echo "TAG=$(date +%Y%m%d)-${GITHUB_SHA::7}" >> $GITHUB_ENV
+
       - name: 🐳 Login no Docker Hub
         uses: docker/login-action@v3
         with:
@@ -34,10 +37,14 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: 🏗️ Build da imagem Docker com tag
-        run: docker build -t $DOCKER_IMAGE:$DOCKER_TAG .
+        run: |
+          docker build -t $DOCKER_IMAGE:$TAG .
+          docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:latest
 
       - name: 🚀 Push da imagem para o Docker Hub
-        run: docker push $DOCKER_IMAGE:$DOCKER_TAG
+        run: |
+          docker push $DOCKER_IMAGE:$TAG
+          docker push $DOCKER_IMAGE:latest
 
       - name: 🔐 Login no Azure
         uses: azure/login@v1
@@ -47,6 +54,10 @@ jobs:
       - name: ⚙️ Obter credenciais do AKS
         run: |
           az aks get-credentials --resource-group ${{ secrets.AZURE_RG }} --name ${{ secrets.AZURE_AKS_CLUSTER }} --overwrite-existing
+
+      - name: 📁 Substituir tag da imagem nos manifests
+        run: |
+          find ./k8s/ -type f -name "*.yaml" -exec sed -i "s|image: $DOCKER_IMAGE:.*|image: $DOCKER_IMAGE:$TAG|g" {} \;
 
       - name: 🚀 Aplicar manifestos no cluster Kubernetes (recursivo)
         run: kubectl apply -R -f ./k8s/
