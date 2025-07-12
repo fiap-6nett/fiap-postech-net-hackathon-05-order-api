@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres-cardapio-service
-  namespace: fase4
+  namespace: fase5
 spec:
   selector:
     app: postgres-cardapio
