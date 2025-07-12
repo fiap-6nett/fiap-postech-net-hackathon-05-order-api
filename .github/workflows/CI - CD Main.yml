@@ -26,9 +26,10 @@ jobs:
       - name: 🛠️ Build da aplicação
         run: dotnet build FastTechFoods.Orders.sln --configuration Release --no-restore
 
-      - name: 🔨 Gerar tag única da imagem
+      - name: 🏷️ Gerar tag única da imagem
         id: vars
-        run: echo "TAG=$(date +%Y%m%d)-${GITHUB_SHA::7}" >> $GITHUB_ENV
+        run: |
+          echo "TAG=$(date +%Y%m%d)-${GITHUB_SHA::7}" >> $GITHUB_ENV
 
       - name: 🐳 Login no Docker Hub
         uses: docker/login-action@v3
@@ -36,15 +37,14 @@ jobs:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
 
-      - name: 🏗️ Build da imagem Docker com tag
+      - name: 🏗️ Build da imagem com duas tags (latest + versão)
         run: |
-          docker build -t $DOCKER_IMAGE:$TAG .
-          docker tag $DOCKER_IMAGE:$TAG $DOCKER_IMAGE:latest
+          docker build -t $DOCKER_IMAGE:latest -t $DOCKER_IMAGE:$TAG .
 
-      - name: 🚀 Push da imagem para o Docker Hub
+      - name: 🚀 Push das imagens
         run: |
-          docker push $DOCKER_IMAGE:$TAG
           docker push $DOCKER_IMAGE:latest
+          docker push $DOCKER_IMAGE:$TAG
 
       - name: 🔐 Login no Azure
         uses: azure/login@v1
@@ -55,15 +55,9 @@ jobs:
         run: |
           az aks get-credentials --resource-group ${{ secrets.AZURE_RG }} --name ${{ secrets.AZURE_AKS_CLUSTER }} --overwrite-existing
 
-      - name: 📁 Substituir tag da imagem nos manifests
-        run: |
-          find ./k8s/ -type f -name "*.yaml" -exec sed -i "s|image: $DOCKER_IMAGE:.*|image: $DOCKER_IMAGE:$TAG|g" {} \;
-
-      - name: 🚀 Aplicar manifestos no cluster Kubernetes (recursivo)
+      - name: 🚀 Aplicar manifests (que usam :latest)
         run: kubectl apply -R -f ./k8s/
 
-      - name: 🔍 Verificar deployments no namespace fase5
-        run: kubectl get deployments -n fase5
-
-      - name: 🔄 Reiniciar o deployment (forçar update da imagem)
+      - name: 🔁 Reiniciar deployment para forçar novo pull da imagem
         run: kubectl rollout restart deployments/order-api -n fase5
+
