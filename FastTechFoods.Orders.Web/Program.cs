@@ -38,7 +38,7 @@ builder.Services.AddSingleton<IMongoClient>(sp =>
     return new MongoClient(mongoDbSettings.ConnectionString);
 });
 
-// Reposit�rios e AutoMapper
+// Repositórios e AutoMapper
 builder.Services.AddScoped<IOrderRepository, OrderRepository>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
@@ -59,12 +59,12 @@ builder.Services.AddSwaggerGen(options =>
 
     options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
-        Name = "Authorization", // nome do header
-        Type = SecuritySchemeType.Http, // tipo do esquema
-        Scheme = "Bearer", // tipo do token (Bearer token)
-        BearerFormat = "JWT", // formato do token
-        In = ParameterLocation.Header, // local onde o token será enviado
-        Description = "Insira o token JWT no campo abaixo. Exemplo: Bearer {seu token}"
+        Name = "Authorization",
+        Type = SecuritySchemeType.Http,
+        Scheme = "Bearer",
+        BearerFormat = "JWT",
+        In = ParameterLocation.Header,
+        Description = "Insira o token JWT. Ex: Bearer {seu token}"
     });
 
     options.AddSecurityRequirement(new OpenApiSecurityRequirement
@@ -83,6 +83,13 @@ builder.Services.AddSwaggerGen(options =>
     });
 });
 
+// Obter SecretKey de variável de ambiente
+var jwtSecretKey = Environment.GetEnvironmentVariable("JWT_SECRET_KEY");
+
+// Fallback seguro: erro se não estiver definida (melhor do que deixar exposta)
+if (string.IsNullOrEmpty(jwtSecretKey))
+    throw new InvalidOperationException("JWT_SECRET_KEY não definida no ambiente");
+
 // Configuração de autenticação JWT
 builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
 {
@@ -95,9 +102,9 @@ builder.Services.AddAuthentication("Bearer").AddJwtBearer("Bearer", options =>
         ClockSkew = TimeSpan.FromMinutes(5),
         ValidIssuer = builder.Configuration["Identity:Issuer"],
         ValidAudience = builder.Configuration["Identity:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Identity:SecretKey"])),
-        RoleClaimType = ClaimTypes.Role, // para [Authorize(Roles = ...)]
-        NameClaimType = ClaimTypes.NameIdentifier // para recuperar o ID com User.FindFirst(...)
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSecretKey)),
+        RoleClaimType = ClaimTypes.Role,
+        NameClaimType = ClaimTypes.NameIdentifier
     };
 });
 
@@ -106,20 +113,18 @@ builder.Services.AddAuthorization();
 var app = builder.Build();
 
 app.UseSwagger();
-
 app.UseSwaggerUI();
 
 app.UseHttpsRedirection();
 app.UseCors("AllowAll");
 
-// Middleware Prometheus para requisições HTTP
+// Prometheus middleware
 app.UseHttpMetrics();
 
 app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.MapMetrics(); // Exposição do /metrics
+app.MapMetrics();
 
 app.Run();
