@@ -1,0 +1,66 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: worker-cadastrar
+  namespace: fase5
+  labels:
+    app: worker-cadastrar
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: worker-cadastrar
+  template:
+    metadata:
+      labels:
+        app: worker-cadastrar
+    spec:
+      containers:
+        - name: worker-cadastrar
+          image: wesley2019/worker-cadastrar:1.0
+          imagePullPolicy: Always
+          env:
+            # RabbitMQ
+            - name: RabbitMQ__Host
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-config
+                  key: RABBITMQ_HOST
+            - name: RabbitMQ__Queue
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-config
+                  key: RABBITMQ_QUEUE
+            - name: RabbitMQ__Vhost
+              valueFrom:
+                configMapKeyRef:
+                  name: rabbitmq-config
+                  key: RABBITMQ_VHOST
+            - name: RabbitMQ__Username
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_USERNAME
+            - name: RabbitMQ__Password
+              valueFrom:
+                secretKeyRef:
+                  name: rabbitmq-secret
+                  key: RABBITMQ_PASSWORD
+            # MongoDB
+            - name: MongoDb__ConnectionString
+              valueFrom:
+                configMapKeyRef:
+                  name: mongodb-config
+                  key: MONGODB_CONNECTIONSTRING
+            - name: MongoDb__Database
+              valueFrom:
+                configMapKeyRef:
+                  name: mongodb-config
+                  key: MONGODB_DATABASE
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"

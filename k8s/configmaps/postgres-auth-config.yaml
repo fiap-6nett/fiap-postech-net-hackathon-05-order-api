@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: postgres-auth-config
+  namespace: fase5
+data:
+  POSTGRES_DB: Usuario
+  POSTGRES_USER: admin
+  POSTGRES_HOST: postgres-auth-service

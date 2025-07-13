@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-api-service
+  namespace: fase5
+spec:
+  selector:
+    app: order-api
+  type: LoadBalancer
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080

@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: rabbitmq-config
+  namespace: fase5
+data:
+  RABBITMQ_HOST: toucan-01.lmq.cloudamqp.com
+  RABBITMQ_VHOST: wesrhrfp  

@@ -38,7 +38,14 @@ namespace FastTechFoods.Orders.Controllers
             _orderRepository = orderRepository;
             _mapper = mapper;
         }
-                
+
+        /// <summary>
+        /// Api responsavel por enviar pedidos a fila de criacao de pedidos - apresentacao fiap.
+        /// </summary>
+        /// <remarks>
+        /// Use a autenticação via token JWT para acessar os endpoints protegidos.
+        /// </remarks>
+        /// 
         [Authorize]
         [HttpPost("[action]")]
         [ProducesResponseType(typeof(ResponseDto), StatusCodes.Status200OK)]
